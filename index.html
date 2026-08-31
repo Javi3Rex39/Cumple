@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Feliz Cumpleaños 🎂</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== INTRO: canvas fireworks ===== -->
+  <div id="introScreen">
+    <div class="starfield" id="starfield"></div>
+    <canvas id="c"></canvas>
+    <div class="intro-hint">toca para continuar ✨</div>
+  </div>
+
+  <!-- ===== SLIDESHOW ===== -->
+  <div class="aurora"><span></span><span></span><span></span><span></span></div>
+  <div id="particles"></div>
+
+  <div class="balloon b1"></div>
+  <div class="balloon b2"></div>
+  <div class="balloon b3"></div>
+  <div class="balloon b4"></div>
+
+  <div class="progress" id="progress"></div>
+
+  <div class="stage" id="stage">
+
+    <!-- Slide 1 -->
+    <section class="slide active" data-index="0">
+      <div class="eyebrow">💗 1 DE SEPTIEMBRE 💗</div>
+      <h1>Hoy cumplen años <em>Javier & Sofía</em></h1>
+      <p class="sub">20 años cada uno, la misma fecha... quizás no fue casualidad 🌸</p>
+
+      <div class="counter" id="counter">
+        <div class="counter-item"><span class="num" id="cDays">00</span><span class="label">días</span></div>
+        <div class="counter-item"><span class="num" id="cHours">00</span><span class="label">horas</span></div>
+        <div class="counter-item"><span class="num" id="cMins">00</span><span class="label">min</span></div>
+        <div class="counter-item"><span class="num" id="cSecs">00</span><span class="label">seg</span></div>
+      </div>
+      <p class="counter-caption">desde que nos conocimos ✨</p>
+    </section>
+
+    <!-- Slide 2 -->
+    <section class="slide" data-index="1">
+      <div class="orbit">
+        <div class="ring r1"></div>
+        <div class="ring r2"></div>
+        <div class="ring r3"></div>
+        <div class="bloom">🌸</div>
+      </div>
+      <h1>Dicen que</h1>
+      <p class="quote">nacer el mismo día no siempre es coincidencia... a veces es destino ✨</p>
+    </section>
+
+    <!-- Slide 3 -->
+    <section class="slide" data-index="2">
+      <h1 style="font-size:clamp(24px,5vw,36px);">Por qué eres increíble</h1>
+      <p class="sub" style="margin-top:6px;">déjame contar las razones 🎀</p>
+      <div class="reasons">
+        <div class="reason"><span class="ic">🌟</span>Tu sonrisa literalmente ilumina cualquier cuarto</div>
+        <div class="reason"><span class="ic">💞</span>La forma en la que te importa la gente es única</div>
+        <div class="reason"><span class="ic">✨</span>Haces que momentos ordinarios se sientan mágicos</div>
+        <div class="reason"><span class="ic">🎀</span>El mundo es genuinamente mejor contigo en él</div>
+      </div>
+    </section>
+
+    <!-- Slide 4 -->
+    <section class="slide" data-index="3">
+      <div class="cake-wrap">
+        <div class="candles">
+          <div class="candle c1"><div class="flame" data-flame></div><div class="puff" data-puff>💨</div></div>
+          <div class="candle c2"><div class="flame" data-flame></div><div class="puff" data-puff>💨</div></div>
+          <div class="candle c3"><div class="flame" data-flame></div><div class="puff" data-puff>💨</div></div>
+        </div>
+        <div class="cake">
+          <div class="tier tier1"></div>
+          <div class="tier tier2"></div>
+          <div class="tier tier3"></div>
+        </div>
+      </div>
+      <div class="wish-cta">Pide un deseo 🌙</div>
+      <div class="hint">✨ toca en cualquier lado para soplar las velas</div>
+    </section>
+
+    <!-- Slide 5 -->
+    <section class="slide" data-index="4">
+      <div class="eyebrow">🎉 feliz feliz cumpleaños 🎉</div>
+      <h1>Feliz <em>Cumpleaños!</em></h1>
+      <p class="quote">"Que este año les traiga todo lo que su corazón desea — amor, risas, aventuras y que todos sus sueños se cumplan 🌸"</p>
+      <div class="hearts">
+        <span>💗</span><span>💕</span><span>🎀</span><span>💖</span><span>💗</span>
+      </div>
+      <div class="credit">hecho con <b>♥</b> por Javier</div>
+      <button class="replay" id="replayBtn">↺ Jugar de nuevo</button>
+      <div class="burst" id="burst"></div>
+    </section>
+
+  </div>
+
+  <div class="tap-hint" id="tapHint">toca para continuar →</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
