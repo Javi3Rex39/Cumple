@@ -1,8 +1,8 @@
 /* ======================================================================
    PART 1: CANVAS FIREWORKS INTRO
-   Draws "JAVIER" / "& SOFÍA" as fireworks that resolve into letters,
-   then into floating balloons. Runs once, then hands off to the
-   slideshow via finishIntro().
+   Draws "Danielita / y / Javier / Feliz Cumpleaños / a Nosotros dos" as
+   fireworks that resolve into letters, then into floating balloons.
+   Runs once, then hands off to the slideshow via finishIntro().
    ====================================================================== */
 
 var w = c.width = window.innerWidth,
@@ -13,7 +13,7 @@ var w = c.width = window.innerWidth,
 		hh = h / 2,
 
 		opts = {
-			strings: [ 'JAVIER', '& SOFIA' ],
+			strings: [ 'Danielita', 'y', 'Javier', ' ', 'Feliz', 'Cumpleaños', 'a', 'Nosotros dos <3' ],
 			charSize: 30, // overwritten by computeCanvasSizing() before letters are built
 			charSpacing: 35,
 			lineHeight: 40,
@@ -54,7 +54,7 @@ var w = c.width = window.innerWidth,
 			balloonAddedRadian: -1,
 		},
 		calc = {
-			totalWidth: opts.charSpacing * Math.max( opts.strings[0].length, opts.strings[1].length )
+			totalWidth: opts.charSpacing * opts.strings.reduce( function( max, s ){ return Math.max( max, s.length ); }, 0 )
 		},
 
 		Tau = Math.PI * 2,
@@ -63,7 +63,7 @@ var w = c.width = window.innerWidth,
 		letters = [],
 		introDone = false;
 
-ctx.font = opts.charSize + 'px Verdana';
+ctx.font = opts.charSize + 'px Fredoka';
 
 function Letter( char, x, y ){
 	this.char = char;
@@ -426,14 +426,24 @@ function anim(){
 
 /* Responsive sizing: fit the longest line (in characters) into ~82% of the
    viewport width, clamped so it never gets microscopic on phones nor
-   oversized on large desktop monitors. */
+   oversized on large desktop monitors. Also caps the size so that ALL
+   lines stacked vertically (opts.strings.length can be more than 2) still
+   fit within the viewport height. */
 function computeCanvasSizing(){
 
-	var maxLen = Math.max( opts.strings[0].length, opts.strings[1].length ),
-			targetWidth = w * .82,
+	var maxLen = 0;
+	for( var i = 0; i < opts.strings.length; ++i )
+		maxLen = Math.max( maxLen, opts.strings[ i ].length );
+
+	var targetWidth = w * .82,
 			spacing = targetWidth / maxLen;
 
-	spacing = Math.max( 24, Math.min( 68, spacing ) );
+	spacing = Math.max( 14, Math.min( 68, spacing ) );
+
+	// lineHeight ends up being charSize * 1.5 = (spacing * .8) * 1.5 = spacing * 1.2,
+	// so cap spacing so that strings.length lines stacked don't exceed ~75% of the viewport height.
+	var maxSpacingForHeight = ( h * .75 ) / ( opts.strings.length * 1.2 );
+	spacing = Math.min( spacing, Math.max( 14, maxSpacingForHeight ) );
 
 	opts.charSpacing = spacing;
 	opts.charSize = spacing * .8;
@@ -441,7 +451,7 @@ function computeCanvasSizing(){
 
 	calc.totalWidth = opts.charSpacing * maxLen;
 
-	ctx.font = opts.charSize + 'px Verdana';
+	ctx.font = opts.charSize + 'px Fredoka';
 }
 
 function buildLetters(){
@@ -451,15 +461,30 @@ function buildLetters(){
 	for( var i = 0; i < opts.strings.length; ++i ){
 		for( var j = 0; j < opts.strings[ i ].length; ++j ){
 			letters.push( new Letter( opts.strings[ i ][ j ],
-															j * opts.charSpacing + opts.charSpacing / 2 - opts.strings[ i ].length * opts.charSize / 2,
+															j * opts.charSpacing + opts.charSpacing / 2 - opts.strings[ i ].length * opts.charSpacing / 2,
 															i * opts.lineHeight + opts.lineHeight / 2 - opts.strings.length * opts.lineHeight / 2 ) );
 		}
 	}
 }
 
-computeCanvasSizing();
-buildLetters();
-anim();
+function startIntroAnimation(){
+	computeCanvasSizing();
+	buildLetters();
+	anim();
+}
+
+// Fredoka se pide en el <head> vía Google Fonts, pero el canvas mide y
+// dibuja texto de inmediato: si la fuente aún no cargó, mediría con la
+// fuente de reemplazo del sistema y las letras quedarían mal centradas.
+// Esperamos a que esté lista (con una salida de emergencia si el navegador
+// no soporta la Font Loading API) antes de arrancar la animación.
+if( document.fonts && document.fonts.load ){
+	Promise.all( [ document.fonts.load( '600 40px Fredoka' ), document.fonts.ready ] )
+		.then( startIntroAnimation )
+		.catch( startIntroAnimation );
+} else {
+	startIntroAnimation();
+}
 
 var initialWidth = window.innerWidth;
 
