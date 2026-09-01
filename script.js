@@ -13,7 +13,7 @@ var w = c.width = window.innerWidth,
 		hh = h / 2,
 
 		opts = {
-			strings: [ 'Danielita', 'y', 'Javier', ' ', 'Feliz', 'Cumpleaños', 'a', 'Nosotros dos <3' ],
+			strings: [ 'Feliz', 'Cumpleaños', 'a', 'Nosotros dos <3' ],
 			charSize: 30, // overwritten by computeCanvasSizing() before letters are built
 			charSpacing: 35,
 			lineHeight: 40,
@@ -25,8 +25,8 @@ var w = c.width = window.innerWidth,
 			fireworkBaseLineWidth: 5,
 			fireworkAddedLineWidth: 8,
 			fireworkSpawnTime: 200,
-			fireworkBaseReachTime: 30,
-			fireworkAddedReachTime: 30,
+			fireworkBaseReachTime: 46,
+			fireworkAddedReachTime: 44,
 			fireworkCircleBaseSize: 20,
 			fireworkCircleAddedSize: 10,
 			fireworkCircleBaseTime: 30,
@@ -41,15 +41,15 @@ var w = c.width = window.innerWidth,
 			fireworkShardBaseSize: 3,
 			fireworkShardAddedSize: 3,
 			gravity: .1,
-			upFlow: -.1,
+			upFlow: -.06,
 			letterContemplatingWaitTime: 360,
 			balloonSpawnTime: 20,
 			balloonBaseInflateTime: 10,
 			balloonAddedInflateTime: 10,
 			balloonBaseSize: 20,
 			balloonAddedSize: 20,
-			balloonBaseVel: .4,
-			balloonAddedVel: .4,
+			balloonBaseVel: .28,
+			balloonAddedVel: .26,
 			balloonBaseRadian: -( Math.PI / 2 - .5 ),
 			balloonAddedRadian: -1,
 		},
@@ -551,6 +551,15 @@ window.addEventListener( 'click', function(){
 		finishIntro();
 	}
 });
+
+// safety net: whatever the per-letter randomness does, never hold the
+// screen for more than ~16s (tuned generously for the slower pacing above)
+setTimeout( function(){
+	if( !introDone ){
+		introDone = true;
+		finishIntro();
+	}
+}, 16000 );
 
 
 /* ======================================================================
